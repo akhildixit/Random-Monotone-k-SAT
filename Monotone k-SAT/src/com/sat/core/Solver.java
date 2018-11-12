@@ -11,14 +11,14 @@ import com.sat.beans.CNFFormula;
 import com.sat.beans.Clause;
 
 public class Solver {
-	private static final String FILEPATH = "";
+	private static final String FILEPATH = "C:\\Users\\Akhil\\OneDrive - ucsc.edu\\Abhyas\\CQA\\lingeling-master\\";
 	private static final String FORMULA_FILENAME = "formula.txt";
 	private static final String OUTPUT_FILENAME = "output.txt";
 
-	public void solve(CNFFormula formula) {
+	public boolean solve(CNFFormula formula) {
 		createDimacsFile(formula);
 		executeCommand(new String[] { "./lingeling", FILEPATH + FORMULA_FILENAME });
-		isSAT();
+		return isSAT();
 	}
 
 	public void createDimacsFile(CNFFormula formula) {
