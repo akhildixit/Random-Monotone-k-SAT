@@ -22,6 +22,7 @@ public class Generator {
 				for (int i = 0; i < l; i++) { // l is the number of clauses
 					formula.addClause(generateNonMonotoneClause(n, k, p, rand));
 				}
+			formula.setNoOfVariables(n);
 			formulas.add(formula);
 		}
 		return formulas;
