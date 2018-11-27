@@ -1,6 +1,10 @@
 package com.sat.beans;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -116,5 +120,40 @@ public class CNFFormula {
 
 	public boolean isEmpty() {
 		return this.clauses.isEmpty();
+	}
+
+	public static CNFFormula readFromFile(File file) {
+		BufferedReader br;
+		try {
+			String line = "";
+			CNFFormula formula = new CNFFormula();
+			br = new BufferedReader(new FileReader(file));
+			while ((line = br.readLine()) != null) {
+				if (line.startsWith("p")) {
+					String[] arr = line.split(" ");
+					formula.setNoOfVariables(Integer.parseInt(arr[2]));
+				} else {
+					Clause clause = new Clause();
+					String[] arr = line.split(" ");
+					for (String s : arr) {
+						if (s.equals("0"))
+							break;
+						clause.addVar(Integer.parseInt(s));
+					}
+					formula.addClause(clause);
+				}
+			}
+			br.close();
+			return formula;
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 }

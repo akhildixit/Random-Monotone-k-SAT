@@ -9,15 +9,16 @@ import java.io.IOException;
 
 import com.sat.beans.CNFFormula;
 import com.sat.beans.Clause;
+import com.sat.beans.Stats;
 
 public class Solver {
-	private static final String FILEPATH = "C:\\Users\\Akhil\\OneDrive - ucsc.edu\\Abhyas\\CQA\\lingeling-master\\";
+	private static final String FILEPATH = "";
 	private static final String FORMULA_FILENAME = "formula.txt";
 	private static final String OUTPUT_FILENAME = "output.txt";
 
-	public boolean solve(CNFFormula formula) {
+	public Stats solve(CNFFormula formula) {
 		createDimacsFile(formula);
-		executeCommand(new String[] { "./lingeling", FILEPATH + FORMULA_FILENAME });
+		executeCommand(new String[] { "./glucose", FILEPATH + FORMULA_FILENAME });
 		return isSAT();
 	}
 
@@ -54,18 +55,27 @@ public class Solver {
 		}
 	}
 
-	public boolean isSAT() {
+	public Stats isSAT() {
 		try (BufferedReader br = new BufferedReader(new FileReader(FILEPATH + OUTPUT_FILENAME))) {
 			String sCurrentLine;
+			Stats stats = new Stats();
 			while ((sCurrentLine = br.readLine()) != null) {
 				if (sCurrentLine.startsWith("s SATISFIABLE")) {
-					return true;
+					stats.setSolved(true);
+				} else if (sCurrentLine.startsWith("c conflicts")) {
+					stats.setConflicts(Integer.parseInt(sCurrentLine.split(":")[1].trim().split(" ")[0]));
+				} else if (sCurrentLine.startsWith("c decisions")) {
+					stats.setDecisions(Integer.parseInt(sCurrentLine.split(":")[1].trim().split(" ")[0]));
+				} else if (sCurrentLine.startsWith("c propagations")) {
+					stats.setPropagations(Integer.parseInt(sCurrentLine.split(":")[1].trim().split(" ")[0]));
+				} else if (sCurrentLine.startsWith("c CPU time")) {
+					stats.setTime(Double.parseDouble(sCurrentLine.split(":")[1].trim().split(" ")[0]));
 				}
 			}
-			return false;
+			return stats;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 }

@@ -1,7 +1,5 @@
 package com.sat.core;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.sat.beans.CNFFormula;
@@ -9,23 +7,19 @@ import com.sat.beans.Clause;
 
 public class Generator {
 
-	public List<CNFFormula> generate(int samples, int k, int n, int l, boolean isMonotone, double p) {
-		List<CNFFormula> formulas = new ArrayList<CNFFormula>();
-		for (int j = 0; j < samples; j++) {
-			CNFFormula formula = new CNFFormula();
-			Random rand = new Random();
-			if (isMonotone)
-				for (int i = 0; i < l; i++) { // l is the number of clauses
-					formula.addClause(generateMonotoneClause(n, k, p, rand));
-				}
-			else
-				for (int i = 0; i < l; i++) { // l is the number of clauses
-					formula.addClause(generateNonMonotoneClause(n, k, p, rand));
-				}
-			formula.setNoOfVariables(n);
-			formulas.add(formula);
-		}
-		return formulas;
+	public CNFFormula generate(int k, int n, int l, boolean isMonotone, double p) {
+		CNFFormula formula = new CNFFormula();
+		Random rand = new Random();
+		if (isMonotone)
+			for (int i = 0; i < l; i++) { // l is the number of clauses
+				formula.addClause(generateMonotoneClause(n, k, p, rand));
+			}
+		else
+			for (int i = 0; i < l; i++) { // l is the number of clauses
+				formula.addClause(generateNonMonotoneClause(n, k, p, rand));
+			}
+		formula.setNoOfVariables(n);
+		return formula;
 	}
 
 	private Clause generateMonotoneClause(int n, int k, double p, Random rand) {
