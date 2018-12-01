@@ -2,8 +2,8 @@ package com.sat.core;
 
 import java.util.Random;
 
-import com.sat.beans.CNFFormula;
-import com.sat.beans.Clause;
+import com.beans.CNFFormula;
+import com.beans.Clause;
 
 public class Generator {
 

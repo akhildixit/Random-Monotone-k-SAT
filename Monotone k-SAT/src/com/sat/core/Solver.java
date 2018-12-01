@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.sat.beans.CNFFormula;
-import com.sat.beans.Clause;
+import com.beans.CNFFormula;
+import com.beans.Clause;
 import com.sat.beans.Stats;
 
 public class Solver {

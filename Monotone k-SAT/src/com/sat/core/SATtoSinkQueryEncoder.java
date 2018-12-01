@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.sat.beans.CNFFormula;
-import com.sat.beans.Clause;
+import com.beans.CNFFormula;
+import com.beans.Clause;
 import com.sat.util.DBEnvironment;
 
 public class SATtoSinkQueryEncoder {
@@ -38,12 +38,11 @@ public class SATtoSinkQueryEncoder {
 					}
 				}
 			}
-			System.out.println("Starting execution..");
 			psPos.executeBatch();
 			psNeg.executeBatch();
-			System.out.println("Done.");
 			psPos.close();
 			psNeg.close();
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
